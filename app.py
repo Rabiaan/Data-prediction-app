@@ -2,11 +2,17 @@ import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
+import os
 
 # Load the model and columns
 try:
-    model = joblib.load('house_price_model.pkl')
-    model_columns = joblib.load('model_columns.pkl')
+    # Get the directory where this script is located
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(current_dir, 'house_price_model.pkl')
+    columns_path = os.path.join(current_dir, 'model_columns.pkl')
+    
+    model = joblib.load(model_path)
+    model_columns = joblib.load(columns_path)
 except FileNotFoundError:
     st.error("Model files not found. Please run 'train_model.py' first.")
     st.stop()
