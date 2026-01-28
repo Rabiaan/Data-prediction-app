@@ -3,18 +3,41 @@ import pandas as pd
 import joblib
 import numpy as np
 import os
+import sys
 
 # Load the model and columns
 try:
-    # Get the directory where this script is located
+    # Try multiple paths for Vercel deployment
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    model_path = os.path.join(current_dir, 'house_price_model.pkl')
-    columns_path = os.path.join(current_dir, 'model_columns.pkl')
+    possible_paths = [
+        os.path.join(current_dir, 'house_price_model.pkl'),
+        os.path.join(os.getcwd(), 'house_price_model.pkl'),
+        'house_price_model.pkl'
+    ]
     
-    model = joblib.load(model_path)
-    model_columns = joblib.load(columns_path)
-except FileNotFoundError:
-    st.error("Model files not found. Please run 'train_model.py' first.")
+    model = None
+    model_columns = None
+    
+    for model_path in possible_paths:
+        columns_path = model_path.replace('house_price_model.pkl', 'model_columns.pkl')
+        try:
+            if os.path.exists(model_path) and os.path.exists(columns_path):
+                model = joblib.load(model_path)
+                model_columns = joblib.load(columns_path)
+                st.success(f"Model loaded successfully from: {model_path}")
+                break
+        except Exception as e:
+            continue
+    
+    if model is None or model_columns is None:
+        st.error("❌ Model files not found!")
+        st.info("Available files in current directory:")
+        for file in os.listdir('.'):
+            st.write(f"- {file}")
+        st.stop()
+        
+except Exception as e:
+    st.error(f"Error loading model: {str(e)}")
     st.stop()
 
 st.title("House Price Prediction App")
