@@ -8,16 +8,16 @@ A Streamlit web application for predicting house prices based on various feature
 - Interactive web interface built with Streamlit
 - Machine learning model trained on housing data
 
-## Deployment to Vercel
+## Deployment to Streamlit Community Cloud
 
-This app is configured for deployment to Vercel. Follow these steps:
+This app is configured for deployment to Streamlit Community Cloud. Follow these steps:
 
-1. Go to [Vercel](https://vercel.com)
+1. Go to [Streamlit Community Cloud](https://streamlit.io/cloud)
 2. Sign in with your GitHub account
-3. Click "Add New Project"
-4. Import your GitHub repository (`Data-prediction-app`)
-5. Vercel will automatically detect the configuration from `vercel.json`
-6. Click "Deploy"
+3. Click "New app"
+4. Select your repository (`Data-prediction-app`)
+5. Set the main file path to `app.py`
+6. Click "Deploy!"
 
 The app should be live within a few minutes!
 
